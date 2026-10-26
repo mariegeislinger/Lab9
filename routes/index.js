@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 // Home page
-router.get('/', function(req, res) {
+router.get('/', function(req, res, next) {
     res.render('index', {
         title: 'Feedback Application',
         author: 'Marie',
@@ -11,14 +11,13 @@ router.get('/', function(req, res) {
 })
 
 // Student feedback form page
-router.get('/student-feedback-form', function(req, res) {
+router.get('/student-feedback-form', function(req, res, next) {
     res.render('student_feedback_form')
 })
 
 // Submit feedback
-router.get('/submit-feedback', function(req, res) {
-    const formData = req.query
-
+router.post('/submit-feedback', function(req, res, next) {
+    const formData = req.body
     console.log(formData)
 
     res.render('thank_you', {
