@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Would You Rather?</title>
+</head>
+
+<body>
+
+    <h1>Would You Rather...</h1>
+
+    <h2 id="question"></h2>
+
+    <fieldset id="wyr-choices">
+        <input id="answer1-radio" type="radio" name="answer">
+        <label id="answer1-label" for="answer1-radio"></label>
+
+        <input id="answer2-radio" type="radio" name="answer">
+        <label id="answer2-label" for="answer2-radio"></label>
+    </fieldset>
+
+    <p id="response-confirmation"></p>
+
+    <script>
+
+        const questionText = document.querySelector('#question')
+        const answer1Label = document.querySelector('#answer1-label')
+        const answer2Label = document.querySelector('#answer2-label')
+        const answer1Radio = document.querySelector('#answer1-radio')
+        const answer2Radio = document.querySelector('#answer2-radio')
+
+        const radioButtonGroup = document.querySelector('#wyr-choices')
+        const responseConfirmation = document.querySelector('#response-confirmation')
+
+        const randomWYRQuestionURL = 'api/wyr'
+
+        fetch(randomWYRQuestionURL)
+            .then(response => response.json())
+            .then(wyrData => {
+                console.log(wyrData)
+
+                questionText.innerHTML = wyrData.question
+
+                answer1Label.innerHTML = wyrData.answer1
+                answer2Label.innerHTML = wyrData.answer2
+
+                answer1Radio.value = wyrData.answer1
+                answer2Radio.value = wyrData.answer2
+            })
+            .catch(err => {
+                console.error(err)
+                alert('Sorry, no Would You Rather questions today')
+            })
+
+        radioButtonGroup.addEventListener('change', (event) => {
+            if (event.target.name === 'answer') {
+                responseConfirmation.innerHTML =
+                    `Thanks! you chose <strong>${event.target.value}</strong>`
+            }
+        })
+
+    </script>
+
+</body>
+</html>
